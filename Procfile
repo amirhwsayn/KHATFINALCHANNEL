@@ -1,0 +1,1 @@
+web: gunicorn KHATFINAL.wsgi --log-file -
