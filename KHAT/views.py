@@ -50,4 +50,5 @@ urls = [
     # Register Admin Via Token -> Header = Token , Code
     path('rigt', Register_Teacher.as_view()),
 
-    path('a', TEST.as_view())]
+    path('a', TEST.as_view())
+]
