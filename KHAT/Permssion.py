@@ -41,3 +41,21 @@ def sendcode(email, code):
     )
     recipient_list = [email]
     send_mail(subject, message, email_from, recipient_list, fail_silently=True, html_message=html_message)
+
+
+def TeacherToken_Uniq():
+    while True:
+        Token = get_random_string(50)
+        if not Teacher.objects.filter(Teacher_Token=Token).exists() or not ClassRoom.objects.filter(ClassRoom_Token = Token):
+            return Token
+
+
+def Teacher_id_uinq(Token):
+    if Teacher.objects.filter(Teacher_Token=Token).exists():
+        return False
+    else:
+        return True
+
+
+def errore_Build(message):
+    return {"detail": f"{message}"}

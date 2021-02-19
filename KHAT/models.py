@@ -5,17 +5,18 @@ from django_jalali.db import models as jmodels
 
 
 # Create your models here.
+from KHAT.Permssion import TeacherToken_Uniq
 
 
 class ClassRoom(Model):
-    ClassRoom_Token = CharField(max_length=100, default=get_random_string(length=50), unique=True, primary_key=True)
+    ClassRoom_Token = CharField(max_length=50, default=TeacherToken_Uniq, unique=True, primary_key=True)
     ClassRoom_Name = CharField(max_length=200)
     ClassRoom_Description = TextField(max_length=300)
     ClassRoom_ProfileImage = ImageField(upload_to='Images')
 
 
 class Teacher(Model):
-    Teacher_Token = CharField(max_length=100, default=get_random_string(length=50))
+    Teacher_Token = CharField(max_length=100, default=TeacherToken_Uniq)
     Teacher_Id = CharField(max_length=50, unique=True, primary_key=True)
     Teacher_Password = CharField(max_length=100)
     Teacher_Email = EmailField()
