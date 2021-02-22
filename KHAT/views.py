@@ -32,17 +32,24 @@ class CreateRegisterToken(APIView):
             return errore_Build('درخواست نا معتبر')
 
 
-class Register_Teacher(generics.CreateAPIView):
-    permission_classes = (Perm_Register,)
-    serializer_class = Serializer_Teacher
+class Register_Teacher(APIView):
+    permission_classes = [Perm_Register]
 
-    def handle_exception(self, exc):
-        if isinstance(exc, exaa.NotAuthenticated):
-            return errore_Build('کد وارد شده نا معتبر است')
-        elif isinstance(exc, exaa.ValidationError):
-            return errore_Build('خطا در ذخیره اطلاعات مقادیر وارد شده را بررسی کنید')
-        elif not Teacher_id_uinq(self.get_serializer_class()['Teacher_Id']):
-            return errore_Build('نام کاربری قبلا انتخاب شده')
+    def post(self, request):
+        Teacher_obj = Serializer_Teacher(data=request.data)
+        if Teacher_obj.is_valid():
+            if Teacher_id_uinq(Teacher_obj['Teacher_Id']):
+                if not Teacher.objects.filter(Teacher_Email=Teacher_obj['Teacher_Email']).exists():
+                    Teacher_obj.save()
+                    data = Teacher.objects.filter(Teacher_Id=Teacher_obj['Teacher_Id'])
+                    Teacherobj = Serializer_Teacher(data=data, many=True)
+                    return Response(data=Teacherobj.data, status=status.HTTP_200_OK)
+                else:
+                    return errore_Build('کاربر دیگری قبلا با این پست الکترونیکی وارد شده')
+            else:
+                return errore_Build('این نام کاربری قبلا انتخاب شده')
+        else:
+            return errore_Build('درخواست نا معتبر')
 
 
 urls = [
