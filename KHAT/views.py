@@ -38,12 +38,11 @@ class Register_Teacher(generics.CreateAPIView):
 
     def handle_exception(self, exc):
         if isinstance(exc, exaa.NotAuthenticated):
-            return Response(errore_Build('کد وارد شده نا معتبر است'), status=status.HTTP_400_BAD_REQUEST)
+            return errore_Build('کد وارد شده نا معتبر است')
         elif isinstance(exc, exaa.ValidationError):
-            return Response(errore_Build('خطا در ذخیره اطلاعات مقادیر وارد شده را بررسی کنید'),
-                            status=status.HTTP_400_BAD_REQUEST)
+            return errore_Build('خطا در ذخیره اطلاعات مقادیر وارد شده را بررسی کنید')
         elif not Teacher_id_uinq(self.get_serializer_class()['Teacher_Id']):
-            return Response(errore_Build('نام کاربری قبلا انتخاب شده'), status=status.HTTP_400_BAD_REQUEST)
+            return errore_Build('نام کاربری قبلا انتخاب شده')
 
 
 urls = [
