@@ -1,7 +1,8 @@
 from django.core.mail import send_mail
 from django.template import loader
 from jdatetime import timedelta
-from rest_framework import permissions
+from rest_framework import permissions, status
+from rest_framework.response import Response
 
 from KHATFINAL import settings
 from .models import *
@@ -46,16 +47,17 @@ def sendcode(email, code):
 def TeacherToken_Uniq():
     while True:
         Token = get_random_string(50)
-        if not Teacher.objects.filter(Teacher_Token=Token).exists() or not ClassRoom.objects.filter(ClassRoom_Token = Token):
+        if not Teacher.objects.filter(Teacher_Token=Token).exists() or not ClassRoom.objects.filter(
+                ClassRoom_Token=Token):
             return Token
 
 
-def Teacher_id_uinq(Token):
-    if Teacher.objects.filter(Teacher_Token=Token).exists():
+def Teacher_id_uinq(id):
+    if Teacher.objects.filter(Teacher_Id=id).exists():
         return False
     else:
         return True
 
 
 def errore_Build(message):
-    return {"detail": f"{message}"}
+    return Response({"detail": f"{message}"}, status=status.HTTP_400_BAD_REQUEST)
