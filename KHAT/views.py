@@ -46,11 +46,6 @@ class Register_Teacher(generics.CreateAPIView):
             return Response(errore_Build('نام کاربری قبلا انتخاب شده'), status=status.HTTP_400_BAD_REQUEST)
 
 
-class TEST(generics.ListAPIView):
-    queryset = Teacher.objects.filter(Teacher_Id='amir')
-    serializer_class = Serializer_Teacher
-
-
 urls = [
     # Create Register Token -> Header = email
     path('cret', CreateRegisterToken.as_view()),
@@ -58,5 +53,4 @@ urls = [
     # Register Admin Via Token -> Header = Token , Code
     path('rigt', Register_Teacher.as_view()),
 
-    path('a', TEST.as_view())
 ]
