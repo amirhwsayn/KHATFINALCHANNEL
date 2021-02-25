@@ -12,7 +12,7 @@ from .serializers import *
 class CreateRegisterToken(APIView):
     def get(self, request):
         if 'email' in request.headers and 'id' in request.headers:
-            if Teacher_id_uinq(request.headers['id']):
+            if not Teacher.objects.filter(Teacher_Id=request.headers['id']).exists():
                 if not Teacher.objects.filter(Teacher_Email=request.headers['email']).exists():
                     mRegisterToken_Token = get_random_string(50)
                     mcode = get_random_string(6, '123456789')
